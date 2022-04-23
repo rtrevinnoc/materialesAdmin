@@ -1,0 +1,7 @@
+{
+  "name": "materialesAdmin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
