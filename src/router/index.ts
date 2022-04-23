@@ -12,11 +12,11 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/addProducto',
-    component: () => import ('../views/AddProducto.vue')
+    component: () => import ('../views/AddProductoPage.vue')
   },
   {
-    path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue')
+    path: '/manageVentas',
+    component: () => import ('../views/manageVentasPage.vue')
   }
 ]
 

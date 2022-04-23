@@ -17,7 +17,7 @@
 							</ion-item>
 						</ion-col>
 					</ion-row>
-					<ion-row size="1">
+					<ion-row>
 						<ion-col>
 							<ion-item>
 								<ion-label position="floating">Contraseña</ion-label>
