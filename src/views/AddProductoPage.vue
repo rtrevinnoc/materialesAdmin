@@ -49,11 +49,11 @@
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonIcon, IonCol, IonGrid, IonRow, modalController} from '@ionic/vue';
 import { addOutline, closeOutline } from "ionicons/icons";
-import addProductoModal from './AddProductoModal.vue'
-import editProductoModal from './EditProductoModal.vue'
+import AddProductoModal from './AddProductoModal.vue'
+import EditProductoModal from './EditProductoModal.vue'
 
 export default defineComponent({
-  name: 'addProductoPage',
+  name: 'AddProductoPage',
   components: {
     IonButtons,
     IonContent,
@@ -74,14 +74,14 @@ methods: {
     async openAddProductoModal() {
       const modal = await modalController
         .create({
-          component: addProductoModal,
+          component: AddProductoModal,
         })
       return modal.present();
     },
 	async openEditProductoModal(campo: string) {
 		const modal = await modalController
 		.create({
-			component: editProductoModal,
+			component: EditProductoModal,
 			componentProps: {
 				campo: campo
 			},

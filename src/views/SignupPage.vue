@@ -27,6 +27,76 @@
 					</ion-row>
 					<ion-row>
 						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Confirmar contraseña</ion-label>
+								<ion-input clearInput type="password"></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Nombre de la Empresa</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Telefono de la Empresa</ion-label>
+								<ion-input type="tel" inputmode="tel"></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col></ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Dirección de la Empresa</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Calle y número</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Colonia</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Codigo Postal</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Municipio</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Estado</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Pais</ion-label>
+								<ion-input></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
 							<ion-button color="success" expand="block">Crear Cuenta</ion-button>
 						</ion-col>
 						<ion-col>
@@ -44,7 +114,7 @@ import { defineComponent } from 'vue';
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
 
 export default defineComponent({
-  name: 'signupPage',
+  name: 'SignupPage',
   components: {
     IonContent,
     IonHeader,

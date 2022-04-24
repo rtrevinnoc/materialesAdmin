@@ -5,39 +5,38 @@
 				<ion-buttons slot="start">
 					<ion-menu-button color="primary"></ion-menu-button>
 				</ion-buttons>
-				<ion-title>Productos</ion-title>
+				<ion-title>Ordenes</ion-title>
 			</ion-toolbar>
 		</ion-header>
     
 		<ion-content :fullscreen="true">
 			<ion-header collapse="condense">
 				<ion-toolbar>
-					<ion-title size="large">Productos</ion-title>
+					<ion-title size="large">Ordenes</ion-title>
 				</ion-toolbar>
 			</ion-header>	
 
 			<div id="container">
 				<ion-grid>
 					<ion-row>
+						<ion-col>Codigo</ion-col>
 						<ion-col>Nombre</ion-col>
-						<ion-col>Imagen</ion-col>
-						<ion-col>Cantidad</ion-col>
-						<ion-col>Precio Unitario</ion-col>
-						<ion-col>Opciones</ion-col>
+						<ion-col>Direccion</ion-col>
+						<ion-col>Correo</ion-col>
+						<ion-col>Fecha Pedido</ion-col>
+						<ion-col>Fecha Envio</ion-col>
+						<ion-col>Fecha Entrega</ion-col>
+						<ion-col>Total</ion-col>
 					</ion-row>
-					<ion-row>
-						<ion-col @click="openEditModal('nombre')">Cemento</ion-col>
-						<ion-col @click="openEditModal('imagen')">Imagen</ion-col>
-						<ion-col @click="openEditModal('cantidad')">30</ion-col>
-						<ion-col @click="openEditModal('precio')">100</ion-col>
-						<ion-col>
-							<ion-icon :icon="closeOutline" size="large" color="danger"></ion-icon>
-						</ion-col>
-					</ion-row>
-					<ion-row>
-						<ion-col>
-							<ion-icon :icon="addOutline" @click="openAddModal" size="large" color="success"></ion-icon>
-						</ion-col>
+					<ion-row @click="openDesgloseOrdenModal('asfjjo91ejop1289')">
+						<ion-col>asfjjo91ejop1289</ion-col>
+						<ion-col>Roberto Treviño</ion-col>
+						<ion-col>Parques de Santo Domingo #912</ion-col>
+						<ion-col>rtrevinnoc@wearebuildingthefuture.com</ion-col>
+						<ion-col>23/04/2022</ion-col>
+						<ion-col>24/04/2022</ion-col>
+						<ion-col>25/04/2022</ion-col>
+						<ion-col>3020</ion-col>
 					</ion-row>
 				</ion-grid>
 			</div>
@@ -48,12 +47,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonIcon, IonCol, IonGrid, IonRow, modalController} from '@ionic/vue';
-import { addOutline, closeOutline } from "ionicons/icons";
-import addModal from './AddProductoModal.vue'
-import editModal from './EditProductoModal.vue'
+import { closeOutline } from "ionicons/icons";
+import DesgloseOrdenModal from './DesgloseOrdenModal.vue'
 
 export default defineComponent({
-  name: 'manageVentasPage',
+  name: 'ManageOrdenesPage',
   components: {
     IonButtons,
     IonContent,
@@ -62,29 +60,21 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
-    IonIcon,
     IonGrid,
     IonCol,
     IonRow,
   },
   setup() {
-	return { addOutline, closeOutline };
+	return {  };
   },
 methods: {
-    async openAddModal() {
+    async openDesgloseOrdenModal(codigo: string) {
       const modal = await modalController
         .create({
-          component: addModal,
-        })
-      return modal.present();
-    },
-	async openEditModal(campo: string) {
-		const modal = await modalController
-		.create({
-			component: editModal,
-			componentProps: {
-				campo: campo
-			},
+          component: DesgloseOrdenModal,
+          componentProps: {
+            codigo: codigo
+          },
         })
       return modal.present();
     },

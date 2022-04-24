@@ -32,7 +32,7 @@ import { defineComponent } from 'vue';
 import { closeOutline } from "ionicons/icons";
 
 export default defineComponent({
-  name: 'editProductoModal',
+  name: 'EditProductoModal',
   props: {
     campo: { type: String },
   },

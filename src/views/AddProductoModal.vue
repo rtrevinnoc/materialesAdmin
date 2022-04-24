@@ -56,7 +56,7 @@ import { defineComponent } from 'vue';
 import { closeOutline } from "ionicons/icons";
 
 export default defineComponent({
-  name: 'addProductoModal',
+  name: 'AddProductoModal',
   data() {
     return {
       modalController,
