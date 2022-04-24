@@ -5,7 +5,7 @@
         <ion-content>
           <ion-list id="inbox-list">
             <ion-list-header>Menu</ion-list-header>
-            <ion-note>rtrevinnoc@wearebuildingthefuture.com</ion-note>
+            <ion-note v-if="user.loggedIn">{{ user.data.email }}</ion-note>
   
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
@@ -15,14 +15,14 @@
             </ion-menu-toggle>
           </ion-list>
   
-          <!--<ion-list id="labels-list">
+          <!-- <ion-list id="labels-list">
             <ion-list-header>Labels</ion-list-header>
   
-            <ion-item v-for="(label, index) in labels" lines="none" :key="index">
-              <ion-icon slot="start" :ios="bookmarkOutline" :md="bookmarkSharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
+            <ion-item @click="logOut()">
+              <ion-icon slot="start" :ios="heartOutline" :md="heartSharp"></ion-icon>
+              <ion-label>Cerrar Sesión</ion-label>
             </ion-item>
-          </ion-list>!--->
+          </ion-list> -->
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
@@ -35,6 +35,9 @@ import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader,
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { mapGetters } from "vuex";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from './main';
 
 export default defineComponent({
   name: 'App',
@@ -85,12 +88,12 @@ export default defineComponent({
       //   iosIcon: trashOutline,
       //   mdIcon: trashSharp
       // },
-      // {
-      //   title: 'Spam',
-      //   url: '/folder/Spam',
-      //   iosIcon: warningOutline,
-      //   mdIcon: warningSharp
-      // }
+      {
+        title: 'Cerrar sesión',
+        url: '/logOut',
+        iosIcon: warningOutline,
+        mdIcon: warningSharp
+      }
     ];
     const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
     
@@ -121,7 +124,24 @@ export default defineComponent({
       warningSharp,
       isSelected: (url: string) => url === route.path ? 'selected' : ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: "user"
+    })
   }
+  // methods: {
+  //   logOut() {
+  //     const auth = getAuth();
+  //     signOut(auth).then(() => {
+  //       this.$router.push('');
+  //     }).catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       console.log(errorCode, errorMessage);
+  //     });
+  //   }
+  // }
 });
 </script>
 

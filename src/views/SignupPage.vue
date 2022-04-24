@@ -111,6 +111,11 @@
 							<ion-button color="danger" expand="block" href="/">¡Ya tengo cuenta!</ion-button>
 						</ion-col>
 					</ion-row>
+					<ion-row>
+						<ion-col v-if="error != null">
+							<ion-label color="danger">{{ error }}</ion-label>
+						</ion-col>
+					</ion-row>
 				</ion-grid>
 			</div>
 		</ion-content>
@@ -154,6 +159,7 @@ export default defineComponent({
 		city_company: "",
 		state_company: "",
 		country_company: "",
+		error: null,
 	}
   },
   methods: {
@@ -168,12 +174,14 @@ export default defineComponent({
 				const errorCode = error.code;
 				const errorMessage = error.message;
 				console.log(error.code, error.message);
+				this.error = error.message;
 			});
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			console.log(error.code, error.message);
+			this.error = error.message;
 		});
     }
   }

@@ -5,7 +5,7 @@
 				<ion-buttons slot="start">
 					<ion-menu-button color="primary"></ion-menu-button>
 				</ion-buttons>
-				<ion-title>Productos</ion-title>
+				<ion-title>Productos - {{ user.data.displayName }}</ion-title>
 			</ion-toolbar>
 		</ion-header>
     
@@ -51,6 +51,15 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
 import { addOutline, closeOutline } from "ionicons/icons";
 import AddProductoModal from './AddProductoModal.vue'
 import EditProductoModal from './EditProductoModal.vue'
+import { getAuth } from "firebase/auth";
+import { mapGetters } from "vuex";
+
+const auth = getAuth();
+// const user = auth.currentUser;
+
+// if (user !== null) {
+//   alert(user.displayName);
+// }
 
 export default defineComponent({
   name: 'AddProductoPage',
@@ -70,7 +79,7 @@ export default defineComponent({
   setup() {
 	return { addOutline, closeOutline };
   },
-methods: {
+  methods: {
     async openAddProductoModal() {
       const modal = await modalController
         .create({
@@ -89,6 +98,11 @@ methods: {
       return modal.present();
     },
   },
+  computed: {
+      ...mapGetters({
+        user: "user"
+      })
+  }
 });
 </script>
 

@@ -1,22 +1,40 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw, useRoute } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
+    path: '/',
+    name: 'index',
     component: () => import ('../views/LoginPage.vue')
   },
   {
-    path: '/signup',
+    path: '/signUp',
+    name: 'signUp',
     component: () => import ('../views/SignupPage.vue')
   },
   {
     path: '/addProducto',
-    component: () => import ('../views/AddProductoPage.vue')
+    name: 'addProducto',
+    component: () => import ('../views/AddProductoPage.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/manageOrdenes',
-    component: () => import ('../views/ManageOrdenesPage.vue')
+    name: 'manageOrdenes',
+    component: () => import ('../views/ManageOrdenesPage.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/logOut',
+    name: 'logOut',
+    component: () => import ('../views/LoginPage.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -24,5 +42,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+// router.beforeEach(async (to, from, next) => {
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   if (requiresAuth && )
+// })
 
 export default router

@@ -5,6 +5,7 @@ import router from './router';
 import { IonicVue } from '@ionic/vue';
 
 import { firestorePlugin } from 'vuefire'
+import { createStore } from 'vuex'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -28,6 +29,7 @@ import './theme/variables.css';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -45,12 +47,57 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
+export const auth = getAuth(firebaseApp);
 const analytics = getAnalytics(firebaseApp);
+// setPersistence(auth, browserLocalPersistence);
 
-const app = createApp(App)
-  .use(IonicVue)
-  .use(router);
+const store = createStore({
+  state: {
+    user: {
+      loggedIn: false,
+      data: null
+    }
+  },
+  getters: {
+    user(state){
+      return state.user
+    }
+  },
+  mutations: {
+    SET_LOGGED_IN(state, value) {
+      state.user.loggedIn = value;
+    },
+    SET_USER(state, data) {
+      state.user.data = data;
+    }
+  },
+  actions: {
+    fetchUser({ commit }, user) {
+      commit("SET_LOGGED_IN", user !== null);
+      if (user) {
+        commit("SET_USER", {
+          displayName: user.displayName,
+          email: user.email
+        });
+      } else {
+        commit("SET_USER", null);
+      }
+    }
+  }
+});
+
+let app: any;
   
-router.isReady().then(() => {
-  app.mount('#app');
+// router.isReady().then(() => {
+  
+// });
+onAuthStateChanged(auth, (user) => {
+  store.dispatch("fetchUser", user);
+  if (!app) {
+    const app = createApp(App)
+      .use(IonicVue)
+      .use(router)
+      .use(store);
+    app.mount('#app');
+  }
 });

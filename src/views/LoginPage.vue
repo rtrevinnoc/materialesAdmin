@@ -30,7 +30,12 @@
 							<ion-button color="success" expand="block" @click="logIn()">Iniciar Sesión</ion-button>
 						</ion-col>
 						<ion-col>
-							<ion-button color="warning" expand="block" href="signup">Crear Cuenta</ion-button>
+							<ion-button color="warning" expand="block" href="signUp">Crear Cuenta</ion-button>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col v-if="error != null">
+							<ion-label color="danger">{{ error }}</ion-label>
 						</ion-col>
 					</ion-row>
 				</ion-grid>
@@ -42,7 +47,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const auth = getAuth();
 
@@ -66,20 +71,31 @@ export default defineComponent({
     return {
         email: "",
         password: "",
+		error: null,
+	}
+  },
+  mounted: function() {
+	if (this.$route.path === "/logOut") {
+      signOut(auth).then(() => {
+        this.$router.push('/');
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
 	}
   },
   methods: {
     logIn() {
 		signInWithEmailAndPassword(auth, this.email, this.password)
-		.then((userCredential) => {
-			const user = userCredential.user;
-			alert(user.displayName);
+		.then(() => {
 			this.$router.push('addProducto');
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			console.log(errorCode, errorMessage);
+			this.error = error.message;
 		});
     }
   }

@@ -5,7 +5,7 @@
 				<ion-buttons slot="start">
 					<ion-menu-button color="primary"></ion-menu-button>
 				</ion-buttons>
-				<ion-title>Ordenes</ion-title>
+				<ion-title>Ordenes - {{ user.data.displayName }}</ion-title>
 			</ion-toolbar>
 		</ion-header>
     
@@ -48,6 +48,10 @@
 import { defineComponent } from 'vue';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, modalController} from '@ionic/vue';
 import DesgloseOrdenModal from './DesgloseOrdenModal.vue'
+import { getAuth } from "firebase/auth";
+import { mapGetters } from "vuex";
+
+const auth = getAuth();
 
 export default defineComponent({
   name: 'ManageOrdenesPage',
@@ -66,7 +70,7 @@ export default defineComponent({
   setup() {
 	return {  };
   },
-methods: {
+  methods: {
     async openDesgloseOrdenModal(codigo: string) {
       const modal = await modalController
         .create({
@@ -78,6 +82,11 @@ methods: {
       return modal.present();
     },
   },
+  computed: {
+      ...mapGetters({
+        user: "user"
+      })
+  }
 });
 </script>
 
