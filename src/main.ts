@@ -51,7 +51,7 @@ export const auth = getAuth(firebaseApp);
 const analytics = getAnalytics(firebaseApp);
 // setPersistence(auth, browserLocalPersistence);
 
-const store = createStore({
+export const store = createStore({
   state: {
     user: {
       loggedIn: false,
