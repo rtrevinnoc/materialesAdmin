@@ -4,6 +4,8 @@ import router from './router';
 
 import { IonicVue } from '@ionic/vue';
 
+import { firestorePlugin } from 'vuefire'
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
@@ -22,6 +24,28 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDlUY2PweQE7doPicrc2Jq1QxRfxPSy4bM",
+  authDomain: "materialesadmin.firebaseapp.com",
+  projectId: "materialesadmin",
+  storageBucket: "materialesadmin.appspot.com",
+  messagingSenderId: "766495896702",
+  appId: "1:766495896702:web:580a3e08445d49c8fc142f",
+  measurementId: "G-PNDQMRC4BZ"
+};
+
+// Initialize Firebase
+export const firebaseApp = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
 
 const app = createApp(App)
   .use(IonicVue)

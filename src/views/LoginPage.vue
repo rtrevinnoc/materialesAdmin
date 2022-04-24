@@ -12,8 +12,8 @@
 					<ion-row>
 						<ion-col>
 							<ion-item>
-								<ion-label position="floating">Nombre de Usuario</ion-label>
-								<ion-input></ion-input>
+								<ion-label position="floating">Correo electronico</ion-label>
+								<ion-input v-model="email"></ion-input>
 							</ion-item>
 						</ion-col>
 					</ion-row>
@@ -21,13 +21,13 @@
 						<ion-col>
 							<ion-item>
 								<ion-label position="floating">Contraseña</ion-label>
-								<ion-input clearInput type="password"></ion-input>
+								<ion-input clearInput type="password" v-model="password"></ion-input>
 							</ion-item>
 						</ion-col>
 					</ion-row>
 					<ion-row>
 						<ion-col>
-							<ion-button color="success" expand="block" href="addProducto">Iniciar Sesión</ion-button>
+							<ion-button color="success" expand="block" @click="logIn()">Iniciar Sesión</ion-button>
 						</ion-col>
 						<ion-col>
 							<ion-button color="warning" expand="block" href="signup">Crear Cuenta</ion-button>
@@ -42,6 +42,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+const auth = getAuth();
 
 export default defineComponent({
   name: 'LoginPage',
@@ -58,6 +61,27 @@ export default defineComponent({
     IonLabel,
     IonItem,
     IonToolbar,
+  },
+  data() {
+    return {
+        email: "",
+        password: "",
+	}
+  },
+  methods: {
+    logIn() {
+		signInWithEmailAndPassword(auth, this.email, this.password)
+		.then((userCredential) => {
+			const user = userCredential.user;
+			alert(user.displayName);
+			this.$router.push('addProducto');
+		})
+		.catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			console.log(errorCode, errorMessage);
+		});
+    }
   }
 });
 </script>

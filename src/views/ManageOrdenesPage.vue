@@ -46,8 +46,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonIcon, IonCol, IonGrid, IonRow, modalController} from '@ionic/vue';
-import { closeOutline } from "ionicons/icons";
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, modalController} from '@ionic/vue';
 import DesgloseOrdenModal from './DesgloseOrdenModal.vue'
 
 export default defineComponent({
