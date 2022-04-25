@@ -20,7 +20,7 @@
 				<ion-grid>
 					<ion-row>
 						<ion-col>Codigo</ion-col>
-						<ion-col>Nombre</ion-col>
+						<!-- <ion-col>Nombre</ion-col> -->
 						<ion-col>Direccion</ion-col>
 						<ion-col>Numero</ion-col>
 						<ion-col>Fecha Pedido</ion-col>
@@ -30,7 +30,7 @@
 					</ion-row>
 					<ion-row v-for="order in orders" :key="order.codigo" @click="openDesgloseOrdenModal(order.codigo, order.materiales)">
 						<ion-col>{{ order.codigo}} </ion-col>
-						<ion-col>{{ order.nombre }}</ion-col>
+						<!-- <ion-col>{{ order.nombre }}</ion-col> -->
 						<ion-col>Parques</ion-col>
 						<ion-col>{{ order.numero}}</ion-col>
 						<ion-col>{{ order.fechaPedido }}</ion-col>
@@ -75,7 +75,9 @@ export default defineComponent({
 	}
   },
   mounted: function() {
-	this.fetchOrders();
+	setInterval(() => {
+		return this.fetchOrders();
+	}, 1000);
   },
   methods: {
     async openDesgloseOrdenModal(codigo: string, materiales: string[]) {
@@ -92,22 +94,32 @@ export default defineComponent({
 	async fetchOrders() {
 		const docs = await getDocs(collection(db, "ordenes"));
 		docs.forEach((doc) => {
-			var data = doc.data();
-			var fechaPedido = new Date(0);
-			fechaPedido.setUTCSeconds(data.fechaPedido.seconds);
-			var fechaEntrega = new Date(0);
-			fechaEntrega.setUTCSeconds(data.fechaEntrega.seconds);
-			this.orders.push({
-				codigo: doc.id,
-				nombre: data.nombre,
-				numero: data.numero,
-				materiales: data.materiales,
-				fechaPedido: fechaPedido.toString(),
-				fechaEntrega: fechaEntrega.toString(),
-				aceptado: data.aceptado,
-				enviado: data.enviado,
-				entregado: data.entregado
-			});
+			if (this.orders.findIndex((o: { codigo: string }) => o.codigo === doc.id) === -1) {
+				var data = doc.data();
+
+				console.log(doc.id);
+
+				var fechaPedido = new Date(0);
+				if (data.fechaPedido != null) {
+					fechaPedido.setUTCSeconds(data.fechaPedido.seconds);
+				}
+				var fechaEntrega = new Date(0);
+				if (data.fechaEntrega != null) {
+					fechaEntrega.setUTCSeconds(data.fechaEntrega.seconds);
+				}
+
+				this.orders.push({
+					codigo: doc.id,
+					// nombre: data.nombre,
+					numero: data.numero,
+					materiales: data.materiales,
+					fechaPedido: fechaPedido.toString(),
+					fechaEntrega: fechaEntrega.toString(),
+					aceptado: data.aceptado,
+					enviado: data.enviado,
+					entregado: data.entregado
+				});
+			}
 		});
 	}
   },
