@@ -5,7 +5,7 @@
 				<ion-buttons slot="start">
 					<ion-menu-button color="primary"></ion-menu-button>
 				</ion-buttons>
-				<ion-title>Ordenes - {{ user.data.displayName }}</ion-title>
+				<ion-title>Ordenes</ion-title>
 			</ion-toolbar>
 		</ion-header>
     
@@ -22,20 +22,20 @@
 						<ion-col>Codigo</ion-col>
 						<ion-col>Nombre</ion-col>
 						<ion-col>Direccion</ion-col>
-						<ion-col>Correo</ion-col>
+						<ion-col>Numero</ion-col>
 						<ion-col>Fecha Pedido</ion-col>
-						<ion-col>Fecha Envio</ion-col>
+						<ion-col>Enviado</ion-col>
 						<ion-col>Fecha Entrega</ion-col>
 						<ion-col>Total</ion-col>
 					</ion-row>
-					<ion-row @click="openDesgloseOrdenModal('asfjjo91ejop1289')">
-						<ion-col>asfjjo91ejop1289</ion-col>
-						<ion-col>Roberto Treviño</ion-col>
-						<ion-col>Parques de Santo Domingo #912</ion-col>
-						<ion-col>rtrevinnoc@wearebuildingthefuture.com</ion-col>
-						<ion-col>23/04/2022</ion-col>
-						<ion-col>24/04/2022</ion-col>
-						<ion-col>25/04/2022</ion-col>
+					<ion-row v-for="order in orders" :key="order.codigo" @click="openDesgloseOrdenModal(order.codigo, order.materiales)">
+						<ion-col>{{ order.codigo}} </ion-col>
+						<ion-col>{{ order.nombre }}</ion-col>
+						<ion-col>Parques</ion-col>
+						<ion-col>{{ order.numero}}</ion-col>
+						<ion-col>{{ order.fechaPedido }}</ion-col>
+						<ion-col>{{ order.enviado }}</ion-col>
+						<ion-col>{{ order.fechaEntrega }}</ion-col>
 						<ion-col>3020</ion-col>
 					</ion-row>
 				</ion-grid>
@@ -50,8 +50,10 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
 import DesgloseOrdenModal from './DesgloseOrdenModal.vue'
 import { getAuth } from "firebase/auth";
 import { mapGetters } from "vuex";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 const auth = getAuth();
+const db = getFirestore();
 
 export default defineComponent({
   name: 'ManageOrdenesPage',
@@ -67,20 +69,47 @@ export default defineComponent({
     IonCol,
     IonRow,
   },
-  setup() {
-	return {  };
+  data() {
+	return {
+		orders: [] as any,
+	}
+  },
+  mounted: function() {
+	this.fetchOrders();
   },
   methods: {
-    async openDesgloseOrdenModal(codigo: string) {
+    async openDesgloseOrdenModal(codigo: string, materiales: string[]) {
       const modal = await modalController
         .create({
           component: DesgloseOrdenModal,
           componentProps: {
-            codigo: codigo
+            codigo: codigo,
+			materiales: materiales
           },
         })
       return modal.present();
     },
+	async fetchOrders() {
+		const docs = await getDocs(collection(db, "ordenes"));
+		docs.forEach((doc) => {
+			var data = doc.data();
+			var fechaPedido = new Date(0);
+			fechaPedido.setUTCSeconds(data.fechaPedido.seconds);
+			var fechaEntrega = new Date(0);
+			fechaEntrega.setUTCSeconds(data.fechaEntrega.seconds);
+			this.orders.push({
+				codigo: doc.id,
+				nombre: data.nombre,
+				numero: data.numero,
+				materiales: data.materiales,
+				fechaPedido: fechaPedido.toString(),
+				fechaEntrega: fechaEntrega.toString(),
+				aceptado: data.aceptado,
+				enviado: data.enviado,
+				entregado: data.entregado
+			});
+		});
+	}
   },
   computed: {
       ...mapGetters({

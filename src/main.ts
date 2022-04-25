@@ -30,6 +30,7 @@ import './theme/variables.css';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -49,7 +50,7 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 const analytics = getAnalytics(firebaseApp);
-// setPersistence(auth, browserLocalPersistence);
+setPersistence(auth, browserLocalPersistence);
 
 export const store = createStore({
   state: {
@@ -97,7 +98,11 @@ onAuthStateChanged(auth, (user) => {
     const app = createApp(App)
       .use(IonicVue)
       .use(router)
-      .use(store);
+      .use(store)
     app.mount('#app');
   }
 });
+
+function firestore() {
+  throw new Error('Function not implemented.');
+}

@@ -15,17 +15,11 @@
 						<ion-col>Precio Unitario</ion-col>
 						<ion-col>Total</ion-col>
 					</ion-row>
-					<ion-row>
-						<ion-col>Cemento</ion-col>
-						<ion-col>30</ion-col>
+					<ion-row v-for="(cantidad, material) of materiales" :key="material">
+						<ion-col>{{ material }}</ion-col>
+						<ion-col>{{ cantidad }}</ion-col>
 						<ion-col>100</ion-col>
 						<ion-col>3000</ion-col>
-					</ion-row>
-					<ion-row>
-						<ion-col>Baterias</ion-col>
-						<ion-col>2</ion-col>
-						<ion-col>10</ion-col>
-						<ion-col>20</ion-col>
 					</ion-row>
 				</ion-grid>
   </ion-content>
@@ -46,6 +40,7 @@ export default defineComponent({
   },
   props: {
     codigo: { type: String },
+	materiales: { type: Object }
   },
   components: {
     IonContent,
